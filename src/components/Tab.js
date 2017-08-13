@@ -63,6 +63,7 @@ class Tab extends Component {
       connectDropTarget,
       isDragging,
       tabKey,
+      endDrag,
       ...attributes
     } = this.props;
 
@@ -101,24 +102,26 @@ const tabSource = {
     console.log(props.focus);
     console.log(props.selected);
     console.log(props.id);
-    console.log(props.key);
+    console.log(props.tabKey);
     return {
-      id: props.id,
-      // originalIndex: props.findTab(props.id).index,
-      originalIndex: props.tabIndex,
+      props,
+      // id: props.id,
+      // // originalIndex: props.findTab(props.id).index,
+      // key: props.tabKey,
+      // originalIndex: props.tabIndex,
     };
   },
 
-  endDrag(_props, monitor, component) {
-    const { decoratedComponentInstance: { props } } = component;
-    const { id: droppedId, originalIndex } = monitor.getItem();
+  endDrag(props, monitor, component) {
+    // const { decoratedComponentInstance: { props } } = component;
+    // const { id: droppedId, originalIndex, key } = monitor.getItem();
     const didDrop = monitor.didDrop();
+    const item = monitor.getItem();
 
-    console.log('endDrag');
+    // console.log('endDrag');
 
-    if (!didDrop) {
-      // props.moveTab(droppedId, originalIndex);
-      console.log('  -- !didDrop');
+    if (props.endDrag) {
+      props.endDrag(didDrop, props, item);
     }
   },
 };
@@ -126,7 +129,7 @@ const tabSource = {
 const tabTarget = {
   canDrop() {
     console.log('canDrop');
-    return false;
+    return true;
   },
 
   hover(props, monitor, component) {

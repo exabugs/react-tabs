@@ -297,8 +297,10 @@ class UncontrolledTabs extends Component {
 }
 
 const tabTarget = {
-  drop() {
-    console.log('drop');
+  drop(props, monitor, component) {
+    if (props.drop) {
+      props.drop(props, monitor.getItem());
+    }
   },
 };
 
