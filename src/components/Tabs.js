@@ -104,9 +104,18 @@ For more information about controlled and uncontrolled mode of react-tabs see th
     }
 
     return (
-      <UncontrolledTabs {...props}>
+      <Tabs.UncontrolledTabs {...props}>
         {children}
-      </UncontrolledTabs>
+      </Tabs.UncontrolledTabs>
     );
+  }
+
+  // Cannot have two HTML5 backends at the same time
+  // https://github.com/react-dnd/react-dnd/issues/186
+
+  static UncontrolledTabs = UncontrolledTabs;
+
+  static refDragDropContext(func) {
+    Tabs.UncontrolledTabs = func(UncontrolledTabs);
   }
 }

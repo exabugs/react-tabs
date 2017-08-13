@@ -8,6 +8,8 @@ import TabList from './TabList';
 import TabPanel from './TabPanel';
 import { getPanelsCount, getTabsCount } from '../helpers/count';
 import { deepMap } from '../helpers/childrenDeepMap';
+import { DropTarget } from 'react-dnd';
+import ItemTypes from './ItemTypes';
 
 // Determine if a node from event.target is a Tab element
 function isTabNode(node) {
@@ -25,7 +27,7 @@ const canUseActiveElement = !!(
   window.document.activeElement
 );
 
-export default class UncontrolledTabs extends Component {
+class UncontrolledTabs extends Component {
   static defaultProps = {
     className: 'react-tabs',
     focus: false,
@@ -41,6 +43,9 @@ export default class UncontrolledTabs extends Component {
     selectedIndex: PropTypes.number.isRequired,
     selectedTabClassName: PropTypes.string,
     selectedTabPanelClassName: PropTypes.string,
+    connectDropTarget: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired,
   };
 
   tabNodes = [];
@@ -268,10 +273,13 @@ export default class UncontrolledTabs extends Component {
       selectedIndex, // unused
       selectedTabClassName, // unused
       selectedTabPanelClassName, // unused
+      connectDropTarget,
+      isOver,
+      canDrop,
       ...attributes
     } = this.props;
 
-    return (
+    return connectDropTarget(
       <div
         {...attributes}
         className={cx(className)}
@@ -283,7 +291,21 @@ export default class UncontrolledTabs extends Component {
         data-tabs
       >
         {this.getChildren()}
-      </div>
+      </div>,
     );
   }
 }
+
+const tabTarget = {
+  drop() {
+    console.log('drop');
+  },
+};
+
+UncontrolledTabs = DropTarget(ItemTypes.TAB, tabTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop(),
+}))(UncontrolledTabs);
+
+export default UncontrolledTabs;
