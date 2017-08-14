@@ -261,6 +261,23 @@ class UncontrolledTabs extends Component {
     return false;
   }
 
+  renderOverlay(color) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          width: '100%',
+          zIndex: 10,
+          opacity: 0.2,
+          backgroundColor: color,
+        }}
+      />
+    );
+  }
+
   render() {
     // Delete all known props, so they don't get added to DOM
     const {
@@ -291,6 +308,7 @@ class UncontrolledTabs extends Component {
         data-tabs
       >
         {this.getChildren()}
+        {isOver && this.renderOverlay('yellow')}
       </div>,
     );
   }
