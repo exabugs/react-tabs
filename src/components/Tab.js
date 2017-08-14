@@ -129,18 +129,13 @@ const tabSource = {
 const tabTarget = {
   canDrop() {
     console.log('canDrop');
-    return true;
+    return false;
   },
 
-  hover(props, monitor, component) {
-    const { decoratedComponentInstance } = component;
-    const { id: draggedId } = monitor.getItem();
-    const { id: overId } = props;
-
-    if (draggedId !== overId) {
-      // const { index: overIndex } = props.findTab(overId);
-      // props.moveTab(draggedId, overIndex);
-      console.log('  -- draggedId !== overId');
+  hover(props, monitor) {
+    const { tabKey } = monitor.getItem().props;
+    if (tabKey !== props.tabKey) {
+      props.hover && props.hover(tabKey, props.tabKey);
     }
   },
 };

@@ -270,7 +270,7 @@ class UncontrolledTabs extends Component {
           left: 0,
           height: '100%',
           width: '100%',
-          zIndex: 10,
+          zIndex: 3,
           opacity: 0.2,
           backgroundColor: color,
         }}
@@ -308,17 +308,17 @@ class UncontrolledTabs extends Component {
         data-tabs
       >
         {this.getChildren()}
-        {isOver && this.renderOverlay('yellow')}
       </div>,
     );
   }
 }
 
+// {isOver && this.renderOverlay('yellow')}
+
 const tabTarget = {
-  drop(props, monitor, component) {
-    if (props.drop) {
-      props.drop(props, monitor.getItem());
-    }
+  drop(props, monitor) {
+    const { tabKey } = monitor.getItem().props;
+    props.drop && props.drop(props.tabsKey, tabKey);
   },
 };
 
