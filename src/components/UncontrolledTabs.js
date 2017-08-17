@@ -293,6 +293,8 @@ class UncontrolledTabs extends Component {
       connectDropTarget,
       isOver,
       canDrop,
+      tabsKey,
+      drop,
       ...attributes
     } = this.props;
 

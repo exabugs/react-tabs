@@ -64,6 +64,7 @@ class Tab extends Component {
       isDragging,
       tabKey,
       endDrag,
+      hover,
       ...attributes
     } = this.props;
 
